@@ -24,4 +24,4 @@ mysql-dump
 docker-compose up -d
 
 ## WORDORESS 位置
-./html
+./www
