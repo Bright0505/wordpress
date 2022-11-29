@@ -19,6 +19,8 @@ services:
       - ./www/:/www/:rw
       - ./php/php.ini:/usr/local/etc/php/php.ini
       - ./php/php-fpm.conf:/usr/local/etc/php-fpm.conf
+    links:
+      - mysql
     restart: always
     cap_add:
       - SYS_PTRACE
@@ -29,6 +31,8 @@ services:
       - ./www/:/www/:rw
       - ./php/php.ini:/usr/local/etc/php/php.ini
       - ./php/php-fpm.conf:/usr/local/etc/php-fpm.conf
+    links:
+      - mysql
     restart: always
     cap_add:
       - SYS_PTRACE
@@ -45,8 +49,5 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - db:/var/lib/mysql
+      - ./data:/var/lib/mysql
       - ./mysql-dump:/docker-entrypoint-initdb.d
-
-volumes:
-  db:
