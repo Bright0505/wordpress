@@ -1,4 +1,4 @@
-FROM alpine:3.16
+FROM alpine:3.17
 
 ENV PHP_VERSION 7.4.30
 ENV PHP_SHA256 ea72a34f32c67e79ac2da7dfe96177f3c451c3eefae5810ba13312ed398ba70d
@@ -22,10 +22,10 @@ RUN apk add --no-cache \
 	#install intl packge
 		icu-dev \
 	#install zip packge
-		libzip-dev
+		libzip-dev \
+		nginx \
+		supervisor
 
-# ensure www-data user exists
-RUN set -eux; adduser -u 82 -D -S -G www-data www-data
 
 ENV PHP_INI_DIR /usr/local/etc/php
 RUN set -eux; \
@@ -111,8 +111,8 @@ RUN set -eux; \
 		$(test "$gnuArch" = 's390x-linux-musl' && echo '--without-pcre-jit') \
 		--disable-cgi \
 		--enable-fpm \
-		--with-fpm-user=www-data \
-		--with-fpm-group=www-data \
+		--with-fpm-user=nginx \
+		--with-fpm-group=nginx \
 	; \
 	make -j "$(nproc)"; \
 	find -type f -name '*.a' -delete; \
@@ -160,14 +160,16 @@ STOPSIGNAL SIGQUIT
 # Copy php config
 COPY ./php/php.ini /usr/local/etc/php/php.ini
 COPY ./php/php-fpm.conf /usr/local/etc/php-fpm.conf
-
+COPY ./nginx/default.conf /etc/nginx/http.d/default.conf
 
 WORKDIR /www
 
 # Create nginx user and group
-RUN addgroup -S nginx && adduser -S nginx -G nginx
+#RUN addgroup -S nginx && adduser -S nginx -G nginx
 RUN chown -R nginx:nginx /www
 
-EXPOSE 9000
+# Supervisor config
+COPY ./supervisord.conf /etc/supervisord.conf
 
-CMD ["php-fpm"]
+EXPOSE 80
+CMD /usr/bin/supervisord -n -c /etc/supervisord.conf
