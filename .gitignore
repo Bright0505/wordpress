@@ -1,7 +1,8 @@
 .env
 mysql-dump/*
 !mysql-dump/.gitkeep
-html/wp-config.php 
+www/*
+!www/wp-content/.gitkeep
 data/
 # Tmp files to always-ignore extensions
 *.diff
