@@ -1,6 +1,7 @@
 .env
 /mysql-dump/*
 !/mysql-dump
+!/www
 /www/*
 !/www/wp-content
 data
