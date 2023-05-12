@@ -1,4 +1,5 @@
 FROM wordpress:6.2.0-php8.2-fpm-alpine
+ENV php_conf "$PHP_INI_DIR/php.ini"
 
 RUN mv "$PHP_INI_DIR/php.ini-production" ${php_conf}
 RUN sed -i -e "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g" ${php_conf} \
