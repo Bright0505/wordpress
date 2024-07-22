@@ -14,4 +14,4 @@ RUN sed -i -e "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g" ${php_conf} \
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["php-fpm"]
-USER 101:101
+USER 1000:1000
