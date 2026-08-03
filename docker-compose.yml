@@ -1,7 +1,7 @@
 version: '3.1'
 services:
   nginx:
-    image: nginx:1.26.0-alpine3.19
+    image: nginx:1.31.3-alpine3.24
     ports:
       - "80:80"
     volumes:
@@ -27,6 +27,17 @@ services:
       WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
       WORDPRESS_DB_NAME: ${DB_DATABASE}
       WORDPRESS_TABLE_PREFIX: wpa_
+      # 站台網址（不含路徑，因為 WordPress 現在掛在根目錄，不再有 /cms）。
+      # 請在 .env 設定 WP_SITE_URL 後解除註解，例如 https://cms.example.com
+      #
+      # 為什麼建議寫死而不是讓 WordPress 自己從 Host 標頭推導：
+      #   server_name 是 catch-all，WordPress 預設信任 HTTP_HOST 來組 URL，
+      #   攻擊者可送出偽造 Host 造成密碼重設信件投毒與快取污染。
+      # 注意：留空會讓 WP_HOME 變成空字串而使站台無法運作，
+      #       所以這裡預設保持註解，不會在未設定時默默壞掉。
+      #WORDPRESS_CONFIG_EXTRA: |
+      #  define('WP_HOME', '${WP_SITE_URL}');
+      #  define('WP_SITEURL', '${WP_SITE_URL}');
     cap_add:
       - SYS_PTRACE
   mysql:
