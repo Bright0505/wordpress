@@ -1,7 +1,14 @@
-### NGINX VERSION 1.26.0
-### PHP VERSION 8.3
+### NGINX VERSION 1.31.3
+### PHP VERSION 8.5
 ### MySQL VERSION 8.0.30
-### WORDORESS VERSION 6.5.3
+### WORDPRESS VERSION 7.0.2
+
+> 本站為 **headless CMS**：只提供後台與 REST／GraphQL API，前台路由已關閉。
+> WordPress 掛在網站根目錄（過去的 `/cms` 前綴已移除，舊路徑會 301 轉址）。
+>
+> - 後台：`/wp-admin/`（**限內網**，見 `nginx/default.conf` 的 `geo` 設定）
+> - REST：`/wp-json/`
+> - GraphQL：`/graphql`
 
 # 安裝 mysql and WORDORESS
 實行前請確認是否安裝 docker-compose  

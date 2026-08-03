@@ -1,4 +1,4 @@
-FROM wordpress:6.5.3-php8.3-fpm-alpine
+FROM wordpress:7.0.2-php8.5-fpm-alpine
 ENV php_conf "$PHP_INI_DIR/php.ini"
 ENV fpm_conf /usr/local/etc/php-fpm.d/www.conf
 
